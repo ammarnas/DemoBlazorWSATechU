@@ -2,9 +2,20 @@
 
 <PageTitle>Counter</PageTitle>
 
-<h1>Counter</h1>
+<form>
+    <div class="form-group">
+        <label for="first-number">First Number: </label>
+        <input @bind="FirstNumber" type="number" class="form-control" id="first-number" aria-describedby="firstNumber" placeholder="Enter First Number">
+    </div>
+    <div class="form-group">
+        <label for="second-number">Second Number: </label>
+        <input @bind="SecondNumber" type="number" class="form-control" id="first-number" aria-describedby="secondNumber" placeholder="Enter Second Number">
+    </div>
 
-<p role="status">Current count: @currentCount</p>
+    <button @onclick="Add" type="button" class="btn btn-primary">Submit</button>
 
-<button class="button-1" @onclick="IncrementCount">Click me</button>
+    <div class="form-group">
+        <label for="result">Result : @Result </label>
+    </div>
+</form>
 
