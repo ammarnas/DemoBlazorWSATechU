@@ -12,9 +12,9 @@ namespace DemoBlazorWSATechU.Pages
             AddClass = new AddClass();
             Operator = '+';
         }
-        public void Process()
+        public void Process(char operation)
         {
-            switch (Operator)
+            switch (operation)
             {
                 case '+':
                     AddClass.Result = AddClass.FirstNumber + AddClass.SecondNumber;

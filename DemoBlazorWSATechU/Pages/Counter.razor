@@ -22,7 +22,7 @@
         </select>
     </div>
 
-    <button @onclick="Process" type="button" class="btn btn-primary">Add</button>
+    <button @onclick="() => Process(Operator)" type="button" class="btn btn-primary">Process</button>
 
     <div class="form-group">
         <label for="result">Result : @AddClass.Result </label>
