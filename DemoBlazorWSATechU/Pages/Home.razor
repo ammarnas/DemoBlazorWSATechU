@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject IDataHelper DataHelper
+@inject NavigationManager NavigationManager
 
 <PageTitle>Home</PageTitle>
 
@@ -7,4 +8,17 @@
 
 Welcome to your new app.
 
+<br />
+
+<button class="btn btn-primary" @onclick="NavigateToUsers">Open Users Page</button>
+
+<button class="btn btn-outline-primary" @onclick="@(() => NavigationManager.NavigateTo("/users"))">Open Users Page</button>
+
+
 @* <Users /> *@
+@code {
+    private void NavigateToUsers(MouseEventArgs args)
+    {
+        NavigationManager.NavigateTo("/users");
+    }
+}
