@@ -99,5 +99,30 @@ namespace DemoEmployee.Server.Controllers
         {
             return _context.Employee.Any(e => e.Id == id);
         }
+
+        // GET: api/Employees/search?name={name}
+        [HttpGet("search/{query}")]
+        public async Task<ActionResult<IEnumerable<Employee>>> SearchEmployee(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return BadRequest("Search term cannot be empty.");
+            }
+
+            var employees = await _context.Employee
+                .Where(e => 
+                    e.Id.ToString() == query || 
+                    e.Name.Contains(query) || 
+                    e.Email.Contains(query) || 
+                    e.Department.Contains(query))
+                .ToListAsync();
+
+            if (!employees.Any())
+            {
+                return NotFound("No employees found matching the search term.");
+            }
+
+            return employees;
+        }
     }
 }
