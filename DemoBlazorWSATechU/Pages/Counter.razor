@@ -12,7 +12,17 @@
         <input @bind="AddClass.SecondNumber" type="number" class="form-control" id="first-number" aria-describedby="secondNumber" placeholder="Enter Second Number">
     </div>
 
-    <button @onclick="Add" type="button" class="btn btn-primary">Add</button>
+    <div class="form-group">
+        <label for="operation">Select Operation: </label>
+        <select @bind="Operator" class="form-control" id="operation">
+            <option value="+">Addition</option>
+            <option value="-">Subtraction</option>
+            <option value="*">Multiplication</option>
+            <option value="/">Division</option>
+        </select>
+    </div>
+
+    <button @onclick="Process" type="button" class="btn btn-primary">Add</button>
 
     <div class="form-group">
         <label for="result">Result : @AddClass.Result </label>
