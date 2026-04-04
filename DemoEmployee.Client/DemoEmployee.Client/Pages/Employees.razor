@@ -4,6 +4,11 @@
 @page "/employees"
 <h3>Employees</h3>
 
+<div class="mb-3">
+    <input type="text" class="form-control" placeholder="Search employees..." @bind="query" />
+    <button class="btn btn-primary mt-2" @onclick="Search">Search</button>
+</div>
+
 @if(Employee == null)
 {
     <p><em>Loading...</em></p>
@@ -40,13 +45,24 @@ else
     </table>  
 }
 
-
 @code {
     private List<Employee>? Employee { get; set; } = new List<Employee>();
+    private string query = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         Employee = await EmployeeService.GetAllAsync();
     }
 
+    private async Task Search()
+    {
+        if(string.IsNullOrWhiteSpace(query))
+        {
+            Employee = await EmployeeService.GetAllAsync();
+        }
+        else 
+        {
+            Employee = await EmployeeService.SearchEmployeesAsync(query);
+        }
+    }
 }
