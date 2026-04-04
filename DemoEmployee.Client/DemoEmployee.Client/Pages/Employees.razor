@@ -1,0 +1,52 @@
+﻿@using DemoEmployee.Core
+@inject EmployeeService EmployeeService
+
+@page "/employees"
+<h3>Employees</h3>
+
+@if(Employee == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (Employee.Count == 0)
+{
+    <p><em>No employees found.</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Department</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var emp in Employee)
+            {
+                <tr>
+                    <td>@emp.Name</td>
+                    <td>@emp.Email</td>
+                    <td>@emp.Department</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary me-2">Edit</button>
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                    </td>
+                </tr>      
+            }
+        </tbody>
+    </table>  
+}
+
+
+@code {
+    private List<Employee>? Employee { get; set; } = new List<Employee>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Employee = await EmployeeService.GetAllAsync();
+    }
+
+}
