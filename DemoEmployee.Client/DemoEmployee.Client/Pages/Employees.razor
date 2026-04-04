@@ -27,6 +27,11 @@
     <button type="submit" class="btn btn-success">
         @(CurrentEmployee.Id == 0 ? "Create" : "Update")
     </button>
+
+    @if(CurrentEmployee.Id != 0)
+    {
+        <button class="btn btn-outline-secondary ms-2" @onclick="Cancel">Cancel</button>
+    }
 </EditForm>
 
 @if(Employee == null)
@@ -56,7 +61,7 @@ else
                     <td>@emp.Email</td>
                     <td>@emp.Department</td>
                     <td>
-                        <button class="btn btn-sm btn-primary me-2">Edit</button>
+                        <button @onclick="() => EditEmployee(emp)" class="btn btn-sm btn-primary me-2">Edit</button>
                         <button @onclick="() => DeleteEmployee(emp.Id)" class="btn btn-sm btn-danger">Delete</button>
                     </td>
                 </tr>      
@@ -105,5 +110,21 @@ else
         }
         CurrentEmployee = new Employee();
         Employee = await EmployeeService.GetAllAsync();
+    }
+
+    private void EditEmployee(Employee employee)
+    {
+        CurrentEmployee = new Employee
+        {
+            Id = employee.Id,
+            Name = employee.Name,
+            Email = employee.Email,
+            Department = employee.Department
+        };
+    }
+
+    private void Cancel()
+    {
+        CurrentEmployee = new Employee();
     }
 }
