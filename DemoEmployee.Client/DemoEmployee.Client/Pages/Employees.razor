@@ -9,6 +9,26 @@
     <button class="btn btn-primary mt-2" @onclick="Search">Search</button>
 </div>
 
+<EditForm Model="CurrentEmployee" OnValidSubmit="SaveEmployee">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <InputText id="name" class="form-control" @bind-Value="CurrentEmployee.Name" />
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <InputText id="email" type="email" class="form-control" @bind-Value="CurrentEmployee.Email" />
+    </div>
+    <div class="mb-3">
+        <label for="department" class="form-label">Department</label>
+        <InputText id="department" class="form-control" @bind-Value="CurrentEmployee.Department" />
+    </div>
+    <button type="submit" class="btn btn-success">
+        @(CurrentEmployee.Id == 0 ? "Create" : "Update")
+    </button>
+</EditForm>
+
 @if(Employee == null)
 {
     <p><em>Loading...</em></p>
@@ -47,6 +67,7 @@ else
 
 @code {
     private List<Employee>? Employee { get; set; } = new List<Employee>();
+    private Employee CurrentEmployee { get; set; } = new Employee();
     private string query = string.Empty;
 
     protected override async Task OnInitializedAsync()
@@ -69,6 +90,20 @@ else
     private async Task DeleteEmployee(int id)
     {
         await EmployeeService.DeleteEmployeeAsync(id);
+        Employee = await EmployeeService.GetAllAsync();
+    }
+
+    private async Task SaveEmployee()
+    {
+        if (CurrentEmployee.Id == 0)
+        {
+            await EmployeeService.CreateEmployeeAsync(CurrentEmployee);
+        }
+        else
+        {
+            await EmployeeService.UpdateEmployeeAsync(CurrentEmployee.Id, CurrentEmployee);
+        }
+        CurrentEmployee = new Employee();
         Employee = await EmployeeService.GetAllAsync();
     }
 }
